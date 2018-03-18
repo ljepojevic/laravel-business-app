@@ -7,7 +7,7 @@
             <div class="card-header">Create Listing</div>
 
             <div class="card-body">
-				<form method="POST" action="/listing">
+				<form method="POST" action="/listings">
 					@csrf
 					<div class="form-group">
 						<label for="name">Name</label>

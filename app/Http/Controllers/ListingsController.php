@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Listing;
 
 class ListingsController extends Controller
 {
@@ -49,7 +50,7 @@ class ListingsController extends Controller
         $listing->user_id = auth()->user()->id;
         $listing->save();
 
-        return redirect('/dashboard')->with('success', 'Listing Added');
+        return redirect('dashboard')->with('success', 'Listing Added');
     }
 
     /**
@@ -71,7 +72,9 @@ class ListingsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $listing = Listing::find($id);
+
+        return view('listings.edit')->with('listing', $listing);
     }
 
     /**
@@ -83,7 +86,18 @@ class ListingsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $listing = Listing::find($id);
+
+        $listing->name = $request->input('name');
+        $listing->email = $request->input('email');
+        $listing->website = $request->input('website');
+        $listing->address = $request->input('address');
+        $listing->phone = $request->input('phone');
+        $listing->bio = $request->input('bio');
+
+        $listing->save();
+
+        return redirect('/dashboard')->with('success', 'Listing Updated!');
     }
 
     /**
@@ -94,6 +108,9 @@ class ListingsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $listing = Listing::find($id);
+        $listing->delete();
+
+        return redirect('/dashboard')->with('success', 'Listing Removed!');
     }
 }

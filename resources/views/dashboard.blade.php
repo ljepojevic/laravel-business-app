@@ -19,13 +19,18 @@
                         <tr>
                             <th>Company</th>
                             <th></th>
-                            <th></th>
                         </tr>
                         @foreach($listings as $listing)
                             <tr>
                                 <td>{{ $listing->name }}</td>
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    <form method="POST" action="/listings/{{ $listing->id }}" onsubmit="return confirm('Are you sure?');">
+                                        @csrf
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="submit" class="btn btn-danger float-right" value="Delete">
+                                    </form>
+                                    <a class="btn btn-info float-right" href="/listings/{{ $listing->id }}/edit">Edit</a>&nbsp;
+                                </td>
                             </tr>
                         @endforeach
                     </table>
