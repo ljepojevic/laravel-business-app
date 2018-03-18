@@ -23,7 +23,7 @@ class ListingsController extends Controller
      */
     public function create()
     {
-        //
+        return view('listings.create');
     }
 
     /**
@@ -34,7 +34,22 @@ class ListingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'email'
+        ]);
+
+        $listing = new Listing;
+        $listing->name = $request->input('name');
+        $listing->email = $request->input('email');
+        $listing->website = $request->input('website');
+        $listing->phone = $request->input('phone');
+        $listing->address = $request->input('address');
+        $listing->bio = $request->input('bio');
+        $listing->user_id = auth()->user()->id;
+        $listing->save();
+
+        return redirect('/dashboard')->with('success', 'Listing Added');
     }
 
     /**
